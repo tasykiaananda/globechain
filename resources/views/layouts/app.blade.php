@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,6 +23,7 @@
             --corporate-dark: #0f172a;
             --corporate-gray: #64748b;
         }
+
         
         /* Mengunci seluruh halaman agar tidak bisa di-scroll */
         body {
@@ -116,7 +119,9 @@
                 <ul class="nav flex-column">
                     <div class="menu-label">Main Dashboard</div>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fa-solid fa-chart-line me-2"></i> Global Overview</a>
+                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
+                            <i class="fa-solid fa-chart-line me-2"></i> Global Overview
+                        </a>
                     </li>
 
                     <div class="menu-label">Analytics & Maps</div>
@@ -145,10 +150,11 @@
 
                     <div class="menu-label">System Admin</div>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-sliders me-2"></i> Admin Panel</a>
+                        <a class="nav-link {{ request()->is('admin*') ? 'active' : '' }}" href="/admin/dashboard">
+                            <i class="fa-solid fa-sliders me-2"></i> Admin Panel
+                        </a>
                     </li>
                     
-                    <!-- Tambahan spasi kosong agar menu bawah bisa terlihat jelas saat di-scroll -->
                     <li class="nav-item mt-5 mb-5">
                         <a class="nav-link text-danger" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a>
                     </li>
@@ -161,5 +167,18 @@
             </div>
         </div>
     </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('.select2-country').select2({
+                width: 'resolve'
+            });
+        });
+    </script>
 </body>
 </html>
