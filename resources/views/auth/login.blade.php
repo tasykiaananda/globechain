@@ -7,11 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --corporate-dark: #1E293B;
-            --matcha-500: #86A789;
-            --matcha-700: #4F6F52;
+         :root {
+            --matcha-50: #f4f9f4;
+            --matcha-100: #e3efe3;
+            --matcha-500: #5364a5; 
+            --matcha-700: #3415a4; 
+            --corporate-dark: #0f172a;
+            --corporate-gray: #64748b;
         }
+
         body {
             background-color: #F8FAFC;
             height: 100vh;
@@ -38,7 +42,7 @@
                         <div class="d-inline-flex justify-content-center align-items-center mb-3 shadow-sm" style="width: 60px; height: 60px; background-color: var(--matcha-500); border-radius: 12px;">
                             <i class="fa-solid fa-anchor text-white fs-3"></i>
                         </div>
-                        <h4 class="fw-bold" style="color: var(--corporate-dark);">SupplySync</h4>
+                        <h4 class="fw-bold" style="color: var(--corporate-dark);">GlobChain</h4>
                         <p class="text-muted small">Global Supply Chain Risk Intelligence</p>
                     </div>
 

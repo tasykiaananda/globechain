@@ -20,13 +20,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 2. Tabel Lokasi Pelabuhan (Ports)
+       // 2. Tabel Lokasi Pelabuhan (Ports)
         Schema::create('ports', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code')->nullable(); // TAMBAHKAN INI UNTUK KODE PELABUHAN
             $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');
-            $table->decimal('lat', 10, 8)->nullable(); // Garis Lintang
-            $table->decimal('lng', 11, 8)->nullable(); // Garis Bujur
+            $table->decimal('lat', 10, 8)->nullable();
+            $table->decimal('lng', 11, 8)->nullable();
             $table->timestamps();
         });
 
