@@ -1,5 +1,5 @@
 <!-- BLOK 1: PROFIL NEGARA (COMPACT BANNER) -->
-<div class="card-corporate p-3 mb-3 border-start border-4 shadow-sm flex-shrink-0" style="border-color: var(--matcha-500) !important; background: white;">
+<div class="card-corporate p-2 mb-2 border-start border-4 shadow-sm flex-shrink-0" style="border-color: var(--matcha-500) !important; background: white;">
     <div class="row align-items-center">
         <!-- Sisi Kiri: Identitas -->
         <div class="col-md-6 d-flex align-items-center gap-3">

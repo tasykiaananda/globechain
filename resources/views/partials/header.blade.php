@@ -41,7 +41,7 @@
 </style>
 
 <!-- HEADER & FORM PENCARIAN -->
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 flex-shrink-0 gap-3" style="animation: fadeInDown 0.5s ease-out;">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-2 flex-shrink-0 gap-2" style="animation: fadeInDown 0.5s ease-out;">
     
     <!-- Judul & Sub-judul -->
     <div>

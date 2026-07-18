@@ -29,21 +29,26 @@ class WorldBankService
             ];
 
             foreach ($indicators as $key => $indicator) {
-                // mrnev=1 akan mencari data tahun terbaru yang tidak kosong
-                $url = "https://api.worldbank.org/v2/country/{$iso2Code}/indicator/{$indicator}?format=json&mrnev=1";
-                $data = $this->fetchNative($url);
+                try {
+                    // mrnev=1 akan mencari data tahun terbaru yang tidak kosong
+                    $url = "https://api.worldbank.org/v2/country/{$iso2Code}/indicator/{$indicator}?format=json&mrnev=1";
+                    $data = $this->fetchNative($url);
 
-                if (isset($data[1][0]['value'])) {
-                    $val = $data[1][0]['value'];
-                    
-                    if ($key === 'inflation') {
-                        $results[$key] = number_format($val, 1);
-                    } elseif ($key === 'population') {
-                        $results[$key] = number_format($val, 0, ',', '.');
-                    } else {
-                        // Format Uang untuk GDP, Ekspor, Impor
-                        $results[$key] = $this->formatMoney($val);
+                    if (isset($data[1][0]['value'])) {
+                        $val = $data[1][0]['value'];
+                        
+                        if ($key === 'inflation') {
+                            $results[$key] = number_format($val, 1);
+                        } elseif ($key === 'population') {
+                            $results[$key] = number_format($val, 0, ',', '.');
+                        } else {
+                            // Format Uang untuk GDP, Ekspor, Impor
+                            $results[$key] = $this->formatMoney($val);
+                        }
                     }
+                } catch (\Exception $e) {
+                    // Jika satu indikator gagal, lanjut ke indikator berikutnya
+                    continue;
                 }
             }
 
@@ -66,20 +71,26 @@ class WorldBankService
 
     private function fetchNative($url)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0');
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        
-        $response = curl_exec($ch);
-        curl_close($ch);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0');
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            
+            $response = curl_exec($ch);
+            $errno = curl_errno($ch);
+            curl_close($ch);
 
-        if ($response) {
+            if ($errno || !$response) {
+                return null;
+            }
             return json_decode($response, true);
+        } catch (\Exception $e) {
+            return null;
         }
-        return null;
     }
 }
