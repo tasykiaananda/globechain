@@ -96,16 +96,26 @@ class AdminController extends Controller
     // 2. MANAJEMEN DATASET PELABUHAN (PORTS)
     // =========================================================================
 
-    public function ports()
+    public function ports(Request $request)
     {
-        // Ambil data pelabuhan dan gabungkan (join) dengan tabel negara untuk mendapatkan nama negaranya
-        $ports = DB::table('ports')
+        // Query builder untuk pelabuhan
+        $query = DB::table('ports')
             ->join('countries', 'ports.country_id', '=', 'countries.id')
-            ->select('ports.*', 'countries.name as country_name')
-            ->orderBy('ports.name', 'asc')
-            ->get();
+            ->select('ports.*', 'countries.name as country_name');
 
-        // Ambil daftar 195 negara untuk ditampilkan di dropdown Select pada form tambah/edit
+        // Fitur pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('ports.name', 'like', "%{$search}%")
+                  ->orWhere('countries.name', 'like', "%{$search}%");
+            });
+        }
+
+        // Pagination: 25 data per halaman agar tidak crash
+        $ports = $query->orderBy('ports.name', 'asc')->paginate(25)->withQueryString();
+
+        // Ambil daftar negara untuk dropdown
         $countries = DB::table('countries')->orderBy('name', 'asc')->get();
 
         return view('admin.ports', [
