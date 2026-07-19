@@ -11,7 +11,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,26 +21,54 @@
 
     <style>
         :root {
-            --sidebar-bg: #0f2044;
-            --sidebar-hover: #1a3060;
-            --sidebar-active: #1e3a70;
-            --sidebar-accent: #4f7ddb;
-            --sidebar-text: #a8bde0;
+            /* ── DARK NAVY PALETTE ── */
+            --navy-900: #0a1628;
+            --navy-800: #0d1e3d;
+            --navy-700: #0f2044;
+            --navy-600: #132a52;
+            --navy-500: #1a3568;
+            --navy-400: #1e4080;
+            --navy-300: #2d5aa0;
+            --navy-accent: #4f7ddb;
+            --navy-glow: rgba(79,125,219,0.15);
+
+            /* ── CREAM SOFT PALETTE ── */
+            --cream-50: #fefcf8;
+            --cream-100: #fdf8f0;
+            --cream-200: #faf3e6;
+            --cream-300: #f5ead6;
+            --cream-400: #eddcc0;
+            --cream-500: #d4c4a8;
+            --cream-warm: #f9f5ed;
+
+            /* ── ACCENT COLORS ── */
+            --accent-gold: #d4a853;
+            --accent-gold-light: rgba(212,168,83,0.12);
+            --accent-emerald: #34d399;
+            --accent-rose: #f87171;
+            --accent-amber: #fbbf24;
+
+            /* ── LEGACY COMPAT ── */
+            --sidebar-bg: var(--navy-700);
+            --sidebar-hover: var(--navy-500);
+            --sidebar-active: var(--navy-400);
+            --sidebar-accent: var(--navy-accent);
+            --sidebar-text: #8fadd4;
             --sidebar-text-bright: #dce8f8;
             --sidebar-label: #506080;
-            --matcha-50: #f0f4ff;
-            --matcha-100: #dde8ff;
-            --matcha-500: #3d5fc0;
-            --matcha-700: #2a45a0;
-            --corporate-dark: #0f172a;
-            --corporate-gray: #64748b;
+            --matcha-50: var(--cream-100);
+            --matcha-100: var(--cream-200);
+            --matcha-500: var(--navy-accent);
+            --matcha-700: var(--navy-300);
+            --corporate-dark: var(--navy-900);
+            --corporate-gray: #7a8a9e;
         }
 
-        /* Mengunci seluruh halaman agar tidak bisa di-scroll */
+        /* ── GLOBAL ── */
         html, body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-            color: var(--corporate-dark);
+            background-color: var(--cream-warm);
+            color: var(--navy-900);
             height: 100vh;
             max-height: 100vh;
             overflow: hidden;
@@ -57,15 +85,16 @@
         .sidebar {
             width: 220px;
             min-width: 220px;
-            background: linear-gradient(180deg, #0d1e3d 0%, #0f2044 60%, #0a1a38 100%);
+            background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-700) 60%, var(--navy-800) 100%);
             height: 100vh;
             overflow-y: auto;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
             padding: 0;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+            box-shadow: 4px 0 25px rgba(0,0,0,0.35);
             flex-shrink: 0;
+            border-right: 1px solid rgba(79,125,219,0.08);
         }
 
         .sidebar::-webkit-scrollbar { width: 3px; }
@@ -82,14 +111,14 @@
         .sidebar-brand .brand-icon {
             width: 34px;
             height: 34px;
-            background: rgba(79,125,219,0.25);
+            background: linear-gradient(135deg, rgba(212,168,83,0.25), rgba(79,125,219,0.25));
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--sidebar-accent);
+            color: var(--accent-gold);
             font-size: 0.95rem;
-            border: 1px solid rgba(79,125,219,0.3);
+            border: 1px solid rgba(212,168,83,0.2);
         }
         .sidebar-brand .brand-text {
             font-size: 0.95rem;
@@ -115,12 +144,12 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--sidebar-accent), #7ba7ff);
+            background: linear-gradient(135deg, var(--accent-gold), #e8c170);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
-            color: white;
+            color: var(--navy-900);
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -177,17 +206,17 @@
         .sidebar-nav .nav-link:hover {
             background-color: rgba(255,255,255,0.06);
             color: var(--sidebar-text-bright);
-            border-left-color: rgba(79,125,219,0.4);
+            border-left-color: rgba(212,168,83,0.4);
         }
 
         .sidebar-nav .nav-link.active {
-            background-color: rgba(79,125,219,0.18);
+            background: linear-gradient(90deg, rgba(212,168,83,0.12), rgba(79,125,219,0.1));
             color: #ffffff;
-            border-left-color: var(--sidebar-accent);
+            border-left-color: var(--accent-gold);
             font-weight: 600;
         }
         .sidebar-nav .nav-link.active i {
-            color: var(--sidebar-accent);
+            color: var(--accent-gold);
         }
 
         /* Sidebar Footer */
@@ -216,7 +245,7 @@
         /* ====== MAIN CONTENT ====== */
         .main-content {
             flex: 1;
-            background-color: #f1f5f9;
+            background: linear-gradient(145deg, var(--cream-warm) 0%, var(--cream-100) 50%, var(--cream-50) 100%);
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -235,18 +264,18 @@
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-thumb { background: var(--cream-400); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cream-500); }
 
         .card-corporate {
             border: none;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(10,22,40,0.06);
             background-color: #ffffff;
         }
 
-        .text-matcha { color: var(--matcha-700); }
-        .bg-matcha { background-color: var(--matcha-500); color: #ffffff; }
+        .text-matcha { color: var(--navy-300); }
+        .bg-matcha { background-color: var(--navy-accent); color: #ffffff; }
     </style>
 </head>
 

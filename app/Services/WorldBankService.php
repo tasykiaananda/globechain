@@ -34,9 +34,26 @@ class WorldBankService
                     $url = "https://api.worldbank.org/v2/country/{$iso2Code}/indicator/{$indicator}?format=json&mrnev=1";
                     $data = $this->fetchNative($url);
 
+                    $val = null;
                     if (isset($data[1][0]['value'])) {
                         $val = $data[1][0]['value'];
-                        
+                    }
+
+                    // Fallback: jika mrnev=1 gagal, coba ambil 5 data terbaru dan cari yang tidak null
+                    if ($val === null) {
+                        $urlFallback = "https://api.worldbank.org/v2/country/{$iso2Code}/indicator/{$indicator}?format=json&per_page=10&date=2015:2025";
+                        $dataFallback = $this->fetchNative($urlFallback);
+                        if (isset($dataFallback[1]) && is_array($dataFallback[1])) {
+                            foreach ($dataFallback[1] as $entry) {
+                                if (isset($entry['value']) && $entry['value'] !== null) {
+                                    $val = $entry['value'];
+                                    break; // Ambil yang paling baru (sudah diurutkan desc)
+                                }
+                            }
+                        }
+                    }
+
+                    if ($val !== null) {
                         if ($key === 'inflation') {
                             $results[$key] = number_format($val, 1);
                         } elseif ($key === 'population') {

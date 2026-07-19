@@ -4,26 +4,27 @@
     .search-capsule {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         background: #ffffff;
-        border: 1px solid #e5e7eb;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        border: 1px solid var(--cream-300);
+        box-shadow: 0 2px 8px rgba(10,22,40,0.04);
     }
     
     .search-capsule:hover, .search-capsule:focus-within {
-        border-color: var(--matcha-400);
-        box-shadow: 0 6px 16px rgba(34, 197, 94, 0.12);
+        border-color: var(--navy-accent);
+        box-shadow: 0 6px 20px rgba(79,125,219,0.12);
         transform: translateY(-2px);
     }
 
-    /* Efek Tombol Monitor (DIPERBAIKI) */
+    /* Efek Tombol Monitor */
     .btn-monitor {
         transition: all 0.2s ease-in-out;
-        color: #ffffff !important; /* Pastikan teks selalu putih */
+        color: #ffffff !important;
+        background: linear-gradient(135deg, var(--navy-600), var(--navy-accent)) !important;
     }
     .btn-monitor:hover {
-        /* Menggunakan brightness untuk menggelapkan warna secara natural, anti-gagal! */
-        filter: brightness(0.85); 
-        color: #ffffff !important; /* Kunci warna teks tetap putih */
+        filter: brightness(1.1);
+        color: #ffffff !important;
         transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(79,125,219,0.3);
     }
     .btn-monitor:active {
         transform: scale(0.95);
@@ -34,9 +35,29 @@
         animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52,211,153,0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(52,211,153,0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+    }
+
+    /* Dashboard title */
+    .dash-title {
+        color: var(--navy-800);
+        letter-spacing: -0.5px;
+    }
+    .dash-subtitle {
+        color: var(--corporate-gray);
+        font-size: 0.85rem;
+    }
+
+    /* Status badge */
+    .status-badge-pill {
+        background: rgba(52,211,153,0.08);
+        border: 1px solid rgba(52,211,153,0.15);
+        font-size: 0.65rem;
+    }
+    .status-badge-pill span {
+        color: var(--accent-emerald);
     }
 </style>
 
@@ -46,21 +67,21 @@
     <!-- Judul & Sub-judul -->
     <div>
         <div class="d-flex align-items-center gap-2 mb-1">
-            <h4 class="mb-0 fw-bold text-dark" style="letter-spacing: -0.5px;">Global Country Dashboard</h4>
+            <h4 class="mb-0 fw-bold dash-title">Global Country Dashboard</h4>
             
             <!-- Badge Status & Live Clock -->
-            <div class="d-flex align-items-center bg-success-subtle border border-success-subtle rounded-pill px-2 py-1 gap-2 shadow-sm" style="font-size: 0.65rem;">
-                <span class="d-flex align-items-center text-success fw-bold">
-                    <span class="rounded-circle bg-success me-1 pulse-dot" style="width: 6px; height: 6px;"></span>
+            <div class="d-flex align-items-center status-badge-pill rounded-pill px-2 py-1 gap-2 shadow-sm">
+                <span class="d-flex align-items-center fw-bold">
+                    <span class="rounded-circle me-1 pulse-dot" style="width: 6px; height: 6px; background: var(--accent-emerald);"></span>
                     Node 10
                 </span>
-                <span class="text-success opacity-25">|</span>
-                <span class="text-success fw-bold" id="live-clock">
+                <span style="color:var(--accent-emerald);opacity:.25">|</span>
+                <span class="fw-bold" id="live-clock" style="color:var(--accent-emerald);">
                     <i class="fa-regular fa-clock me-1"></i> 00:00:00
                 </span>
             </div>
         </div>
-        <p class="text-secondary mb-0" style="font-size: 0.85rem;"><i class="fa-solid fa-satellite-dish me-1"></i>Pusat komando pemantauan risiko rantai pasok global.</p>
+        <p class="dash-subtitle mb-0"><i class="fa-solid fa-satellite-dish me-1"></i>Pusat komando pemantauan risiko rantai pasok global.</p>
     </div>
 
     <!-- Form Pencarian (Interactive Capsule) -->
@@ -69,11 +90,11 @@
             @csrf
             
             <div class="ps-3 pe-2 text-muted flex-shrink-0">
-                <i class="fa-solid fa-earth-americas" style="font-size: 0.9rem; color: var(--matcha-500);"></i>
+                <i class="fa-solid fa-earth-americas" style="font-size: 0.9rem; color: var(--navy-accent);"></i>
             </div>
 
             <div class="flex-grow-1 px-1" style="min-width: 0;">
-                <select name="country" class="form-select select2-country border-0 bg-transparent shadow-none p-0" style="width: 100%; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #374151;">
+                <select name="country" class="form-select select2-country border-0 bg-transparent shadow-none p-0" style="width: 100%; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--navy-800);">
                     @php
                         $selected = request('country', isset($country) ? ($country['names']['common'] ?? 'Indonesia') : 'Indonesia');
                         $list = $countriesList ?? []; 
@@ -89,8 +110,8 @@
                 </select>
             </div>
             
-            <!-- Tombol Search (Dikembalikan ke Kaca Pembesar) -->
-            <button type="submit" id="btn-monitor" class="btn btn-monitor fw-bold d-flex align-items-center justify-content-center rounded-pill px-3 flex-shrink-0 border-0 shadow-sm" style="background-color: var(--matcha-500); height: 34px;">
+            <!-- Tombol Search -->
+            <button type="submit" id="btn-monitor" class="btn btn-monitor fw-bold d-flex align-items-center justify-content-center rounded-pill px-3 flex-shrink-0 border-0 shadow-sm" style="height: 34px;">
                 <i class="fa-solid fa-magnifying-glass me-1" id="btn-icon" style="font-size: 0.75rem;"></i>
                 <span id="btn-text" style="font-size: 0.75rem;">Monitor</span>
             </button>

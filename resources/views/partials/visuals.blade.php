@@ -6,8 +6,8 @@
     $highestFactor = 'Aman';
     $insightText   = 'Semua metrik dalam batas normal.';
     $insightColor  = '#16a34a';
-    $insightBg     = '#f0fdf4';
-    $insightBorder = '#bbf7d0';
+    $insightBg     = 'rgba(52,211,153,0.08)';
+    $insightBorder = 'rgba(52,211,153,0.15)';
     $insightIcon   = 'fa-circle-check';
 
     if (isset($riskData['breakdown'])) {
@@ -23,15 +23,15 @@
 
         if ($highestScore >= 67) {
             $insightText   = "Titik kritis terdeteksi pada sektor <strong>{$highestFactor}</strong> dengan skor risiko {$highestScore}/100.";
-            $insightColor  = '#dc2626';
-            $insightBg     = '#fef2f2';
-            $insightBorder = '#fecaca';
+            $insightColor  = '#ef4444';
+            $insightBg     = 'rgba(239,68,68,0.06)';
+            $insightBorder = 'rgba(239,68,68,0.12)';
             $insightIcon   = 'fa-triangle-exclamation';
         } elseif ($highestScore >= 34) {
             $insightText   = "Pengawasan ekstra diperlukan pada sektor <strong>{$highestFactor}</strong> (skor: {$highestScore}/100).";
             $insightColor  = '#d97706';
-            $insightBg     = '#fffbeb';
-            $insightBorder = '#fde68a';
+            $insightBg     = 'rgba(245,158,11,0.06)';
+            $insightBorder = 'rgba(245,158,11,0.12)';
             $insightIcon   = 'fa-circle-exclamation';
         }
     }
@@ -40,10 +40,10 @@
 <style>
     /* ===== CHART CARD ===== */
     .chart-card {
-        background: #ffffff;
+        background: linear-gradient(145deg, #ffffff, var(--cream-50));
         border-radius: 14px;
-        border: 1px solid #eef0f4;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid var(--cream-300);
+        box-shadow: 0 2px 12px rgba(10,22,40,0.05);
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -51,7 +51,7 @@
     }
     .chart-card-header {
         padding: 10px 14px 8px;
-        border-bottom: 1px solid #f3f4f6;
+        border-bottom: 1px solid var(--cream-200);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -60,7 +60,7 @@
     .chart-card-title {
         font-size: 0.88rem;
         font-weight: 700;
-        color: #111827;
+        color: var(--navy-800);
         display: flex;
         align-items: center;
         gap: 7px;
@@ -68,7 +68,7 @@
     .chart-card-title .icon-wrap {
         width: 28px; height: 28px;
         border-radius: 7px;
-        background: linear-gradient(135deg, #3d5fc0, #6b8ff7);
+        background: linear-gradient(135deg, var(--navy-600), var(--navy-accent));
         display: flex; align-items: center; justify-content: center;
         color: #fff;
         font-size: 0.7rem;
@@ -99,13 +99,13 @@
         align-items: center;
         gap: 5px;
         font-size: 0.72rem;
-        color: #6b7280;
+        color: var(--corporate-gray);
         font-weight: 500;
     }
 
     /* Insight banner */
     .insight-banner {
-        border-radius: 7px;
+        border-radius: 8px;
         padding: 6px 10px;
         font-size: 0.74rem;
         font-weight: 500;
@@ -125,17 +125,20 @@
     .risk-pill {
         flex: 1;
         text-align: center;
-        border-radius: 7px;
+        border-radius: 8px;
         padding: 5px 4px 4px;
-        background: #f8fafc;
-        border: 1px solid #e9ecef;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.15s ease;
+    }
+    .risk-pill:hover {
+        transform: translateY(-1px);
     }
     .risk-pill .pill-label {
         font-size: 0.58rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        color: #9ca3af;
         margin-bottom: 2px;
     }
     .risk-pill .pill-val {
@@ -160,13 +163,16 @@
         flex-direction: column;
         justify-content: center;
         min-height: 0;
-        transition: box-shadow 0.2s;
+        transition: all 0.2s;
     }
-    .news-entry:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .news-entry:hover { 
+        box-shadow: 0 3px 14px rgba(10,22,40,0.08);
+        transform: translateY(-1px); 
+    }
     .news-title {
         font-size: 0.80rem;
         font-weight: 700;
-        color: #111827;
+        color: var(--navy-800);
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -174,7 +180,7 @@
         line-height: 1.45;
         text-decoration: none;
     }
-    .news-title:hover { color: #3d5fc0; }
+    .news-title:hover { color: var(--navy-accent); }
     .sentiment-badge {
         font-size: 0.60rem;
         font-weight: 700;
@@ -198,7 +204,7 @@
                     Risk Factor Breakdown
                 </div>
                 <div class="legend-row">
-                    <span class="legend-item"><span class="legend-dot" style="background:#3d5fc0;"></span>Skor Saat Ini</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:var(--navy-accent);"></span>Skor Saat Ini</span>
                     <span class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span>Rata-rata</span>
                     <span class="legend-item"><span class="legend-dot" style="background:#f87171;border-radius:2px;width:16px;height:4px;"></span>Batas Kritis</span>
                 </div>
@@ -218,12 +224,12 @@
                     @foreach ($pillItems as $p)
                         @php
                             $val = $riskData['breakdown'][$p['key']] ?? 0;
-                            if ($val >= 67) { $pillColor = '#ef4444'; $pillBg = '#fef2f2'; }
-                            elseif ($val >= 34) { $pillColor = '#f59e0b'; $pillBg = '#fffbeb'; }
-                            else { $pillColor = '#10b981'; $pillBg = '#f0fdf4'; }
+                            if ($val >= 67) { $pillColor = '#ef4444'; $pillBg = 'rgba(239,68,68,0.06)'; $pillBorder = 'rgba(239,68,68,0.12)'; }
+                            elseif ($val >= 34) { $pillColor = '#f59e0b'; $pillBg = 'rgba(245,158,11,0.06)'; $pillBorder = 'rgba(245,158,11,0.12)'; }
+                            else { $pillColor = '#10b981'; $pillBg = 'rgba(16,185,129,0.06)'; $pillBorder = 'rgba(16,185,129,0.12)'; }
                         @endphp
-                        <div class="risk-pill" style="background:{{ $pillBg }};border-color:{{ $pillColor }}20;">
-                            <div class="pill-label"><i class="fa-solid {{ $p['icon'] }} me-1"></i>{{ $p['label'] }}</div>
+                        <div class="risk-pill" style="background:{{ $pillBg }};border:1px solid {{ $pillBorder }};">
+                            <div class="pill-label" style="color: {{ $pillColor }};"><i class="fa-solid {{ $p['icon'] }} me-1"></i>{{ $p['label'] }}</div>
                             <div class="pill-val" style="color:{{ $pillColor }};">{{ $val }}</div>
                             <div class="pill-bar" style="background:{{ $pillColor }};opacity:0.25;"></div>
                         </div>
@@ -253,14 +259,14 @@
 
             <div class="chart-card-header">
                 <div class="chart-card-title">
-                    <div class="icon-wrap" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">
+                    <div class="icon-wrap" style="background:linear-gradient(135deg, var(--accent-gold), #e8c170);">
                         <i class="fa-regular fa-newspaper"></i>
                     </div>
                     Market Sentiment
                 </div>
                 @if(count($news) > 2)
-                    <button class="btn btn-sm d-flex align-items-center gap-1 border" data-bs-toggle="modal" data-bs-target="#newsModal"
-                            style="font-size:0.72rem;padding:4px 10px;border-radius:7px;background:#f8fafc;color:#374151;border-color:#e5e7eb!important;">
+                    <button class="btn btn-sm d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#newsModal"
+                            style="font-size:0.72rem;padding:4px 10px;border-radius:7px;background:var(--cream-100);color:var(--navy-600);border:1px solid var(--cream-300);font-weight:600;">
                         <i class="fa-solid fa-expand" style="font-size:0.65rem;"></i> Detail
                     </button>
                 @endif
@@ -270,28 +276,32 @@
                 @forelse(array_slice($news, 0, 2) as $article)
                     @php
                         if ($article['sentiment'] === 'Positive') {
-                            $bg = '#f0fdf4'; $border = '#22c55e';
+                            $bg = 'rgba(52,211,153,0.06)'; $border = 'var(--accent-emerald)';
                             $bClass = 'bg-success'; $bColor = '#16a34a';
                         } elseif ($article['sentiment'] === 'Negative') {
-                            $bg = '#fef2f2'; $border = '#ef4444';
+                            $bg = 'rgba(239,68,68,0.06)'; $border = '#ef4444';
                             $bClass = 'bg-danger'; $bColor = '#dc2626';
                         } else {
-                            $bg = '#f8fafc'; $border = '#94a3b8';
-                            $bClass = 'bg-secondary'; $bColor = '#6b7280';
+                            $bg = 'var(--cream-100)'; $border = 'var(--corporate-gray)';
+                            $bClass = ''; $bColor = 'var(--corporate-gray)';
                         }
                     @endphp
                     <div class="news-entry" style="background:{{ $bg }};border-color:{{ $border }};">
                         <a href="{{ $article['url'] }}" target="_blank" class="news-title">{{ $article['title'] }}</a>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <span style="font-size:0.70rem;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%;">
+                            <span style="font-size:0.70rem;color:var(--corporate-gray);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%;">
                                 <i class="fa-regular fa-clock me-1"></i>{{ $article['source'] }}
                             </span>
-                            <span class="sentiment-badge {{ $bClass }} text-white">{{ $article['sentiment'] }}</span>
+                            @if($bClass)
+                                <span class="sentiment-badge {{ $bClass }} text-white">{{ $article['sentiment'] }}</span>
+                            @else
+                                <span class="sentiment-badge text-white" style="background:var(--corporate-gray);">{{ $article['sentiment'] }}</span>
+                            @endif
                         </div>
                     </div>
                 @empty
-                    <div class="text-center text-muted m-auto">
-                        <i class="fa-regular fa-folder-open fs-3 mb-2 d-block text-secondary"></i>
+                    <div class="text-center m-auto" style="color:var(--corporate-gray);">
+                        <i class="fa-regular fa-folder-open fs-3 mb-2 d-block" style="color:var(--cream-400);"></i>
                         <p style="font-size:0.78rem;">Belum ada data sentimen pasar.</p>
                     </div>
                 @endforelse
@@ -304,10 +314,10 @@
 {{-- ====== MODAL SEMUA BERITA ====== --}}
 <div class="modal fade" id="newsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-        <div class="modal-content" style="border-radius:14px;border:none;">
-            <div class="modal-header border-bottom-0 pb-0">
-                <h6 class="modal-title fw-bold">
-                    <i class="fa-regular fa-newspaper me-2" style="color:var(--matcha-500);"></i>Semua Berita Sentimen
+        <div class="modal-content" style="border-radius:14px;border:none;box-shadow:0 20px 60px rgba(10,22,40,0.2);">
+            <div class="modal-header border-bottom-0 pb-0" style="background:var(--cream-100);border-radius:14px 14px 0 0;">
+                <h6 class="modal-title fw-bold" style="color:var(--navy-800);">
+                    <i class="fa-regular fa-newspaper me-2" style="color:var(--navy-accent);"></i>Semua Berita Sentimen
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -316,11 +326,11 @@
                     @foreach($news as $article)
                         @php $bClass = $article['sentiment'] == 'Positive' ? 'bg-success' : ($article['sentiment'] == 'Negative' ? 'bg-danger' : 'bg-secondary'); @endphp
                         <div class="col-md-6">
-                            <div class="card h-100 shadow-sm border-0 bg-light p-3 rounded-3">
+                            <div class="card h-100 shadow-sm border-0 p-3 rounded-3" style="background:var(--cream-50);">
                                 <span class="badge {{ $bClass }} text-white mb-2" style="width:fit-content;font-size:0.6rem;">{{ $article['sentiment'] }}</span>
-                                <a href="{{ $article['url'] }}" target="_blank" class="text-decoration-none text-dark fw-bold" style="font-size:0.85rem;line-height:1.4;">{{ $article['title'] }}</a>
-                                <div class="mt-auto pt-2 border-top">
-                                    <small class="text-muted" style="font-size:0.7rem;"><i class="fa-regular fa-building me-1"></i>{{ $article['source'] }}</small>
+                                <a href="{{ $article['url'] }}" target="_blank" class="text-decoration-none fw-bold" style="font-size:0.85rem;line-height:1.4;color:var(--navy-800);">{{ $article['title'] }}</a>
+                                <div class="mt-auto pt-2 border-top" style="border-color:var(--cream-300) !important;">
+                                    <small style="font-size:0.7rem;color:var(--corporate-gray);"><i class="fa-regular fa-building me-1"></i>{{ $article['source'] }}</small>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const barColors = current.map(v => {
         if (v >= 67) return makeGrad('rgba(239,68,68,0.95)',  'rgba(239,68,68,0.35)');
         if (v >= 34) return makeGrad('rgba(245,158,11,0.95)','rgba(245,158,11,0.35)');
-        return            makeGrad('rgba(16,185,129,0.95)', 'rgba(16,185,129,0.35)');
+        return            makeGrad('rgba(79,125,219,0.95)', 'rgba(79,125,219,0.35)');
     });
 
     /* ── Threshold + label plugin ── */
@@ -408,8 +418,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     label: 'Rata-rata Historis',
                     data: average,
-                    backgroundColor: 'rgba(148,163,184,0.30)',
-                    borderColor: 'rgba(148,163,184,0.70)',
+                    backgroundColor: 'rgba(148,163,184,0.20)',
+                    borderColor: 'rgba(148,163,184,0.50)',
                     borderWidth: 1,
                     borderRadius: { topLeft: 4, topRight: 4 },
                     borderSkipped: false,
@@ -432,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     beginAtZero: true,
                     max: 100,
                     border: { display: false },
-                    grid: { color: '#f1f5f9', lineWidth: 1 },
+                    grid: { color: 'rgba(10,22,40,0.04)', lineWidth: 1 },
                     ticks: {
                         font: { size: 10, family: "'Inter', sans-serif" },
                         color: '#9ca3af',
@@ -445,19 +455,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     grid: { display: false },
                     ticks: {
                         font: { size: 11, weight: '700', family: "'Inter', sans-serif" },
-                        color: '#374151',
+                        color: 'var(--navy-700)',
                     }
                 }
             },
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: '#1e293b',
+                    backgroundColor: 'var(--navy-900)',
                     titleColor: '#94a3b8',
                     bodyColor: '#f1f5f9',
                     padding: 12,
                     cornerRadius: 10,
-                    borderColor: 'rgba(255,255,255,0.06)',
+                    borderColor: 'rgba(79,125,219,0.12)',
                     borderWidth: 1,
                     titleFont: { size: 11, family: "'Inter',sans-serif" },
                     bodyFont: { size: 13, weight: 'bold', family: "'Inter',sans-serif" },

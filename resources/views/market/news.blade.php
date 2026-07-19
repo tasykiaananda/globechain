@@ -2,52 +2,78 @@
 
 @section('content')
 <style>
-/* ===== NEWS & SENTIMENT PAGE ===== */
-.news-page { display:flex; flex-direction:column; height:100%; overflow-y:auto; }
+/* ===== NEWS & SENTIMENT PAGE (Full Dark Navy Theme) ===== */
+.news-page { display:flex; flex-direction:column; height:100%; overflow-y:auto; background: #0b1628; padding-bottom: 2rem; }
+
+:root {
+    --fn: #0b1628; /* Background */
+    --fc: #1a2d4e; /* Card */
+    --fb: rgba(79,125,219,0.18); /* Border */
+    --fa: #4f7ddb; /* Accent */
+    --ft: #dce8f8; /* Text bright */
+    --fm: #8fadd4; /* Text muted */
+    --fg: #34d399; /* Green */
+    --fy: #fbbf24; /* Yellow */
+    --fr: #f87171; /* Red */
+}
 
 @keyframes slideDown {
     from { opacity:0; transform:translateY(-8px); }
     to   { opacity:1; transform:translateY(0); }
 }
 
+/* Header Container */
+.news-header-container {
+    background: linear-gradient(135deg, #0f2044, #0d1e3d);
+    border-bottom: 1px solid var(--fb);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-top: -1rem;
+}
+
 /* Live badge */
 .live-badge {
     display:inline-flex; align-items:center; gap:6px;
-    background:#ecfdf5; border:1px solid #6ee7b7;
-    border-radius:99px; padding:3px 10px;
-    font-size:0.68rem; font-weight:700; color:#059669;
+    background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.25);
+    border-radius:99px; padding:4px 12px;
+    font-size:0.65rem; font-weight:700; color:var(--fg);
 }
 .pulse-dot {
-    width:6px; height:6px; border-radius:50%; background:#10b981;
+    width:6px; height:6px; border-radius:50%; background:var(--fg);
     animation:livePulse 1.5s infinite;
 }
 @keyframes livePulse {
-    0%   { box-shadow:0 0 0 0 rgba(16,185,129,.7); }
-    70%  { box-shadow:0 0 0 5px rgba(16,185,129,0); }
-    100% { box-shadow:0 0 0 0 rgba(16,185,129,0); }
+    0%   { box-shadow:0 0 0 0 rgba(52,211,153,.7); }
+    70%  { box-shadow:0 0 0 5px rgba(52,211,153,0); }
+    100% { box-shadow:0 0 0 0 rgba(52,211,153,0); }
 }
 
-/* Search capsule — identik dengan dashboard */
+/* Search capsule */
 .search-capsule {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--fb);
     border-radius: 99px;
     display: flex; align-items: center;
     padding: 4px 4px 4px 12px; gap: 6px;
     width: 360px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     flex-shrink: 0;
 }
 .search-capsule:hover,
 .search-capsule:focus-within {
-    border-color: var(--matcha-400, #3d5fc0);
-    box-shadow: 0 6px 16px rgba(61, 95, 192, 0.15);
-    transform: translateY(-2px);
+    border-color: var(--fa);
+    box-shadow: 0 0 0 3px rgba(79,125,219,0.15);
 }
 .btn-analyze {
     transition: all 0.2s ease-in-out;
-    background-color: var(--matcha-500, #3d5fc0);
+    background: linear-gradient(135deg, var(--fa), #3d5fc0);
     color: #ffffff !important;
     border: none; border-radius: 99px;
     padding: 0 18px; height: 34px;
@@ -56,35 +82,67 @@
     cursor: pointer; white-space: nowrap;
 }
 .btn-analyze:hover {
-    filter: brightness(0.85);
-    color: #ffffff !important;
-    transform: scale(1.05);
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
-.btn-analyze:active { transform: scale(0.95); }
+
+/* Select2 overrides for dark theme */
+.select2-container--bootstrap-5 .select2-selection {
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--ft) !important;
+}
+.select2-container--bootstrap-5 .select2-selection__rendered {
+    color: var(--ft) !important;
+    font-weight: 600;
+}
+.select2-dropdown {
+    background-color: #1e2d4a !important;
+    border: 1px solid var(--fb) !important;
+}
+.select2-results__option {
+    color: var(--ft) !important;
+}
+.select2-results__option--highlighted {
+    background-color: var(--fa) !important;
+    color: white !important;
+}
+
+/* Base Card Style */
+.base-card {
+    background: linear-gradient(145deg, #1a2d4e, #162240);
+    border: 1px solid var(--fb);
+    position: relative;
+    overflow: hidden;
+}
+.base-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(79,125,219,.04), transparent 50%);
+    pointer-events: none;
+}
 
 /* Stat cards */
-.stat-row { display:flex; gap:12px; flex-shrink:0; margin-bottom:14px; }
+.stat-row { display:flex; gap:12px; flex-shrink:0; margin-bottom:14px; padding: 0 1rem; }
 .stat-card {
-    flex:1; background:#fff; border-radius:12px;
-    padding:12px 16px; border:1px solid #eef0f6;
-    box-shadow:0 2px 8px rgba(0,0,0,.04);
+    flex:1; border-radius:14px;
+    padding:12px 16px; 
     display:flex; align-items:center; gap:12px;
     transition:box-shadow .2s, transform .2s;
 }
-.stat-card:hover { box-shadow:0 6px 20px rgba(61,95,192,.10); transform:translateY(-2px); }
+.stat-card:hover { border-color:rgba(79,125,219,.3); transform:translateX(2px); }
 .stat-icon {
     width:40px; height:40px; border-radius:10px;
     display:flex; align-items:center; justify-content:center;
     font-size:1rem; flex-shrink:0;
 }
-.stat-label { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#94a3b8; margin-bottom:3px; }
-.stat-value { font-size:1.15rem; font-weight:800; color:#0f172a; letter-spacing:-.5px; line-height:1; }
-.stat-sub   { font-size:.7rem; color:#94a3b8; margin-top:3px; }
+.stat-label { font-size:.58rem; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; color:var(--fm); margin-bottom:3px; }
+.stat-value { font-size:1.15rem; font-weight:800; color:#fff; letter-spacing:-.5px; line-height:1; }
+.stat-sub   { font-size:.7rem; color:var(--fm); margin-top:3px; }
 
 /* Progress bar mini */
 .mini-progress {
     height:4px; border-radius:99px;
-    background:#f1f5f9; margin-top:6px; overflow:hidden;
+    background:rgba(0,0,0,0.2); margin-top:6px; overflow:hidden;
 }
 .mini-progress-fill { height:100%; border-radius:99px; transition:width .8s ease; }
 
@@ -94,31 +152,28 @@
     grid-template-columns:300px 1fr;
     gap:14px;
     min-height:420px;
-    /* Pastikan bisa scroll kalau konten membesar */
-    overflow-y:auto;
+    padding: 0 1rem;
 }
 
 /* Panel */
 .panel-card {
-    background:#fff; border-radius:14px;
-    border:1px solid #eef0f6;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    border-radius:14px;
     display:flex; flex-direction:column;
-    overflow:hidden; min-height:0;
+    min-height:0;
 }
 .panel-header {
-    padding:12px 16px 10px; border-bottom:1px solid #f3f4f6;
+    padding:12px 16px 10px; border-bottom:1px solid var(--fb);
     display:flex; justify-content:space-between;
     align-items:center; flex-shrink:0;
 }
 .panel-title {
-    font-size:.88rem; font-weight:700; color:#111827;
-    display:flex; align-items:center; gap:8px;
+    font-size:.88rem; font-weight:800; color:var(--ft);
+    display:flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:0.5px;
 }
 .panel-icon {
-    width:28px; height:28px; border-radius:7px;
+    width:28px; height:28px; border-radius:7px; background: rgba(79,125,219,.12);
     display:flex; align-items:center; justify-content:center;
-    font-size:.72rem; color:#fff; flex-shrink:0;
+    font-size:.72rem; color:var(--fa); flex-shrink:0;
 }
 .panel-body {
     padding:14px 16px; flex:1;
@@ -136,16 +191,16 @@
     transform:translate(-50%,-50%);
     text-align:center; pointer-events:none;
 }
-.donut-center .dc-val { font-size:1.3rem; font-weight:800; color:#0f172a; line-height:1; }
-.donut-center .dc-lbl { font-size:.60rem; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:.5px; }
+.donut-center .dc-val { font-size:1.3rem; font-weight:800; color:#fff; line-height:1; }
+.donut-center .dc-lbl { font-size:.60rem; font-weight:700; color:var(--fm); text-transform:uppercase; letter-spacing:.5px; }
 
 /* Sentiment legend */
 .sent-legend { display:flex; flex-direction:column; gap:6px; flex-shrink:0; }
 .sent-item { display:flex; align-items:center; gap:8px; }
 .sent-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
 .sent-info { flex:1; }
-.sent-name { font-size:.72rem; font-weight:700; color:#374151; }
-.sent-count { font-size:.68rem; color:#94a3b8; }
+.sent-name { font-size:.72rem; font-weight:700; color:var(--ft); }
+.sent-count { font-size:.68rem; color:var(--fm); }
 .sent-pct { font-size:.78rem; font-weight:800; margin-left:auto; }
 
 /* News list scroll */
@@ -156,13 +211,13 @@
     min-height:0;
 }
 .news-list::-webkit-scrollbar { width:4px; }
-.news-list::-webkit-scrollbar-thumb { background:#e2e8f0; border-radius:99px; }
-.news-list::-webkit-scrollbar-thumb:hover { background:#cbd5e1; }
+.news-list::-webkit-scrollbar-thumb { background:rgba(79,125,219,0.3); border-radius:99px; }
+.news-list::-webkit-scrollbar-thumb:hover { background:var(--fa); }
 
 /* News article card */
 .article-card {
-    background:#fff; border-radius:10px;
-    border:1px solid #f1f5f9;
+    background:rgba(255,255,255,0.03); border-radius:10px;
+    border:1px solid var(--fb);
     border-left:3px solid;
     padding:10px 14px;
     display:flex; flex-direction:column;
@@ -172,22 +227,22 @@
     text-decoration:none;
 }
 .article-card:hover {
-    box-shadow:0 4px 16px rgba(61,95,192,.10);
-    transform:translateX(2px);
-    background:#fafbff;
+    background:rgba(79,125,219,.06);
+    border-color:rgba(79,125,219,.3);
+    transform:translateX(3px);
 }
 .article-source {
     font-size:.65rem; font-weight:700;
-    text-transform:uppercase; letter-spacing:.5px; color:#94a3b8;
+    text-transform:uppercase; letter-spacing:.5px; color:var(--fm);
     display:flex; align-items:center; gap:5px;
 }
 .article-title {
-    font-size:.82rem; font-weight:700; color:#0f172a;
+    font-size:.85rem; font-weight:700; color:#fff;
     line-height:1.45;
     display:-webkit-box; -webkit-line-clamp:2;
     -webkit-box-orient:vertical; overflow:hidden;
 }
-.article-title:hover { color:#3d5fc0; }
+.article-title:hover { color:var(--fa); }
 .article-footer {
     display:flex; justify-content:space-between;
     align-items:center; margin-top:2px;
@@ -195,7 +250,6 @@
 .score-chip {
     font-size:.67rem; font-weight:700;
     padding:2px 8px; border-radius:99px;
-    border:1px solid;
 }
 .sent-badge {
     font-size:.62rem; font-weight:700;
@@ -206,18 +260,18 @@
 /* Filter chips */
 .filter-chips { display:flex; gap:6px; flex-wrap:wrap; }
 .chip {
-    font-size:.70rem; font-weight:600; padding:4px 12px;
-    border-radius:99px; cursor:pointer; border:1.5px solid #e2e8f0;
-    background:#f8fafc; color:#64748b; transition:all .2s; user-select:none;
+    font-size:.70rem; font-weight:700; padding:4px 12px;
+    border-radius:99px; cursor:pointer; border:1px solid rgba(255,255,255,0.1);
+    background:rgba(0,0,0,0.15); color:var(--fm); transition:all .2s; user-select:none;
 }
-.chip:hover { border-color:#3d5fc0; color:#3d5fc0; background:#f0f4ff; }
-.chip.active { background:#3d5fc0; color:#fff; border-color:#3d5fc0; }
+.chip:hover { border-color:var(--fa); color:var(--fa); background:rgba(79,125,219,.06); }
+.chip.active { background:linear-gradient(135deg,var(--fa),#3d5fc0); color:#fff; border-color:transparent; }
 
 /* Empty state */
 .empty-state {
     flex:1; display:flex; flex-direction:column;
     align-items:center; justify-content:center;
-    gap:10px; color:#94a3b8; padding:30px;
+    gap:10px; color:var(--fm); padding:30px;
 }
 </style>
 
@@ -227,38 +281,38 @@
     $negPct = $totalNews > 0 ? round(($negative / $totalNews) * 100) : 0;
 
     /* Dominant sentiment */
-    $dom = 'Netral'; $domColor = '#64748b';
-    if ($positive >= $negative && $positive >= $neutral) { $dom = 'Positif'; $domColor = '#16a34a'; }
-    elseif ($negative >= $positive && $negative >= $neutral) { $dom = 'Negatif'; $domColor = '#dc2626'; }
+    $dom = 'Netral'; $domColor = 'var(--fm)';
+    if ($positive >= $negative && $positive >= $neutral) { $dom = 'Positif'; $domColor = 'var(--fg)'; }
+    elseif ($negative >= $positive && $negative >= $neutral) { $dom = 'Negatif'; $domColor = 'var(--fr)'; }
 @endphp
 
 <div class="news-page" style="animation:slideDown .4s ease-out;">
 
     {{-- ===== HEADER ===== --}}
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;gap:12px;flex-shrink:0;">
+    <div class="news-header-container">
         <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <h1 style="font-size:1.25rem;font-weight:800;color:#0f172a;letter-spacing:-.5px;margin:0;">News &amp; Market Sentiment</h1>
+                <h1 style="font-size:1.05rem;font-weight:800;color:#fff;margin:0;">News &amp; Market Sentiment</h1>
                 <div class="live-badge">
                     <span class="pulse-dot"></span>
                     Sentiment Engine Active
-                    <span style="opacity:.3;">|</span>
+                    <span style="opacity:.3;color:var(--fm);">|</span>
                     <span id="live-clock"><i class="fa-regular fa-clock me-1"></i>--:--:--</span>
                 </div>
             </div>
-            <p style="font-size:.82rem;color:#64748b;margin:0;">
-                <i class="fa-solid fa-chart-pie me-1"></i>Pemantauan sentimen berita ekonomi &amp; rantai pasok secara real-time untuk <strong>{{ $selectedCountry }}</strong>.
+            <p style="font-size:.74rem;color:var(--fm);margin:0;">
+                <i class="fa-solid fa-chart-pie me-1"></i>Pemantauan sentimen berita ekonomi &amp; rantai pasok secara real-time untuk <strong style="color:var(--ft);">{{ $selectedCountry }}</strong>.
             </p>
         </div>
 
         <form id="monitor-form" action="{{ route('market.news') }}" method="GET" class="search-capsule">
             @csrf
             <div class="ps-3 pe-2 flex-shrink-0">
-                <i class="fa-solid fa-earth-americas" style="font-size: 0.9rem; color: var(--matcha-500, #3d5fc0);"></i>
+                <i class="fa-solid fa-earth-americas" style="font-size: 0.9rem; color: var(--fa);"></i>
             </div>
             <div class="flex-grow-1 px-1" style="min-width: 0;">
                 <select name="country" class="form-select select2-news border-0 bg-transparent shadow-none p-0"
-                        style="width: 100%; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #374151;">
+                        style="width: 100%; cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--ft);">
                     @foreach($countries as $c)
                         <option value="{{ $c }}" {{ $selectedCountry == $c ? 'selected' : '' }}>{{ $c }}</option>
                     @endforeach
@@ -273,9 +327,9 @@
 
     {{-- ===== STAT CARDS ===== --}}
     <div class="stat-row">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:linear-gradient(135deg,#3d5fc0,#6b8ff7);">
-                <i class="fa-solid fa-newspaper" style="color:#fff;"></i>
+        <div class="stat-card base-card">
+            <div class="stat-icon" style="background:rgba(79,125,219,.12); color:var(--fa);">
+                <i class="fa-solid fa-newspaper"></i>
             </div>
             <div>
                 <div class="stat-label">Total Artikel</div>
@@ -284,50 +338,50 @@
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon" style="background:linear-gradient(135deg,#16a34a,#4ade80);">
-                <i class="fa-solid fa-arrow-trend-up" style="color:#fff;"></i>
+        <div class="stat-card base-card">
+            <div class="stat-icon" style="background:rgba(52,211,153,.12); color:var(--fg);">
+                <i class="fa-solid fa-arrow-trend-up"></i>
             </div>
             <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;">
                     <div class="stat-label">Positif</div>
-                    <span style="font-size:.75rem;font-weight:800;color:#16a34a;">{{ $posPct }}%</span>
+                    <span style="font-size:.75rem;font-weight:800;color:var(--fg);">{{ $posPct }}%</span>
                 </div>
-                <div class="stat-value" style="color:#16a34a;">{{ $positive }}</div>
+                <div class="stat-value" style="color:var(--fg);">{{ $positive }}</div>
                 <div class="mini-progress">
-                    <div class="mini-progress-fill" style="width:{{ $posPct }}%;background:#16a34a;"></div>
+                    <div class="mini-progress-fill" style="width:{{ $posPct }}%;background:var(--fg);"></div>
                 </div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon" style="background:linear-gradient(135deg,#64748b,#94a3b8);">
-                <i class="fa-solid fa-minus" style="color:#fff;"></i>
+        <div class="stat-card base-card">
+            <div class="stat-icon" style="background:rgba(255,255,255,.05); color:var(--fm);">
+                <i class="fa-solid fa-minus"></i>
             </div>
             <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;">
                     <div class="stat-label">Netral</div>
-                    <span style="font-size:.75rem;font-weight:800;color:#64748b;">{{ $neuPct }}%</span>
+                    <span style="font-size:.75rem;font-weight:800;color:var(--fm);">{{ $neuPct }}%</span>
                 </div>
-                <div class="stat-value" style="color:#64748b;">{{ $neutral }}</div>
+                <div class="stat-value" style="color:var(--ft);">{{ $neutral }}</div>
                 <div class="mini-progress">
-                    <div class="mini-progress-fill" style="width:{{ $neuPct }}%;background:#94a3b8;"></div>
+                    <div class="mini-progress-fill" style="width:{{ $neuPct }}%;background:var(--fm);"></div>
                 </div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon" style="background:linear-gradient(135deg,#dc2626,#f87171);">
-                <i class="fa-solid fa-arrow-trend-down" style="color:#fff;"></i>
+        <div class="stat-card base-card">
+            <div class="stat-icon" style="background:rgba(248,113,113,.12); color:var(--fr);">
+                <i class="fa-solid fa-arrow-trend-down"></i>
             </div>
             <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;">
                     <div class="stat-label">Negatif</div>
-                    <span style="font-size:.75rem;font-weight:800;color:#dc2626;">{{ $negPct }}%</span>
+                    <span style="font-size:.75rem;font-weight:800;color:var(--fr);">{{ $negPct }}%</span>
                 </div>
-                <div class="stat-value" style="color:#dc2626;">{{ $negative }}</div>
+                <div class="stat-value" style="color:var(--fr);">{{ $negative }}</div>
                 <div class="mini-progress">
-                    <div class="mini-progress-fill" style="width:{{ $negPct }}%;background:#dc2626;"></div>
+                    <div class="mini-progress-fill" style="width:{{ $negPct }}%;background:var(--fr);"></div>
                 </div>
             </div>
         </div>
@@ -337,10 +391,10 @@
     <div class="main-grid">
 
         {{-- LEFT: Sentiment Overview Panel --}}
-        <div class="panel-card" style="overflow-y:auto;">
+        <div class="panel-card base-card">
             <div class="panel-header">
                 <div class="panel-title">
-                    <div class="panel-icon" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+                    <div class="panel-icon" style="color:var(--fy); background:rgba(251,191,36,.12);">
                         <i class="fa-solid fa-chart-pie"></i>
                     </div>
                     Sentiment Overview
@@ -360,46 +414,46 @@
                 {{-- Sentiment legend items --}}
                 <div class="sent-legend">
                     <div class="sent-item">
-                        <div class="sent-dot" style="background:#16a34a;"></div>
+                        <div class="sent-dot" style="background:var(--fg);"></div>
                         <div class="sent-info">
                             <div class="sent-name">Positif</div>
                             <div class="mini-progress" style="margin-top:4px;">
-                                <div class="mini-progress-fill" style="width:{{ $posPct }}%;background:#16a34a;"></div>
+                                <div class="mini-progress-fill" style="width:{{ $posPct }}%;background:var(--fg);"></div>
                             </div>
                         </div>
-                        <span class="sent-pct" style="color:#16a34a;">{{ $posPct }}%</span>
+                        <span class="sent-pct" style="color:var(--fg);">{{ $posPct }}%</span>
                     </div>
                     <div class="sent-item">
-                        <div class="sent-dot" style="background:#94a3b8;"></div>
+                        <div class="sent-dot" style="background:var(--fm);"></div>
                         <div class="sent-info">
                             <div class="sent-name">Netral</div>
                             <div class="mini-progress" style="margin-top:4px;">
-                                <div class="mini-progress-fill" style="width:{{ $neuPct }}%;background:#94a3b8;"></div>
+                                <div class="mini-progress-fill" style="width:{{ $neuPct }}%;background:var(--fm);"></div>
                             </div>
                         </div>
-                        <span class="sent-pct" style="color:#64748b;">{{ $neuPct }}%</span>
+                        <span class="sent-pct" style="color:var(--ft);">{{ $neuPct }}%</span>
                     </div>
                     <div class="sent-item">
-                        <div class="sent-dot" style="background:#dc2626;"></div>
+                        <div class="sent-dot" style="background:var(--fr);"></div>
                         <div class="sent-info">
                             <div class="sent-name">Negatif</div>
                             <div class="mini-progress" style="margin-top:4px;">
-                                <div class="mini-progress-fill" style="width:{{ $negPct }}%;background:#dc2626;"></div>
+                                <div class="mini-progress-fill" style="width:{{ $negPct }}%;background:var(--fr);"></div>
                             </div>
                         </div>
-                        <span class="sent-pct" style="color:#dc2626;">{{ $negPct }}%</span>
+                        <span class="sent-pct" style="color:var(--fr);">{{ $negPct }}%</span>
                     </div>
                 </div>
 
                 {{-- Dominant insight --}}
                 <div style="margin-top:14px;">
-                    <div style="background:#f8fafc;border-radius:10px;padding:12px;border:1px solid #eef0f6;">
-                        <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;margin-bottom:5px;">Dominan Pasar</div>
+                    <div style="background:rgba(0,0,0,0.15);border-radius:10px;padding:12px;border:1px solid rgba(79,125,219,.08);">
+                        <div style="font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--fm);margin-bottom:5px;">Dominan Pasar</div>
                         <div style="font-size:1rem;font-weight:800;color:{{ $domColor }};">
                             <i class="fa-solid {{ $dom === 'Positif' ? 'fa-circle-check' : ($dom === 'Negatif' ? 'fa-circle-exclamation' : 'fa-circle-minus') }} me-1"></i>
                             {{ $dom }}
                         </div>
-                        <div style="font-size:.72rem;color:#64748b;margin-top:3px;">
+                        <div style="font-size:.72rem;color:var(--fm);font-weight:500;margin-top:3px;">
                             {{ $dom === 'Positif' ? 'Kondisi rantai pasok kondusif' : ($dom === 'Negatif' ? 'Perlu pemantauan risiko operasional' : 'Situasi berimbang, monitor berkala') }}
                         </div>
                     </div>
@@ -408,21 +462,21 @@
         </div>
 
         {{-- RIGHT: Article List --}}
-        <div class="panel-card">
+        <div class="panel-card base-card">
             <div class="panel-header">
                 <div class="panel-title">
-                    <div class="panel-icon" style="background:linear-gradient(135deg,#3d5fc0,#6b8ff7);">
+                    <div class="panel-icon">
                         <i class="fa-solid fa-list-ul"></i>
                     </div>
                     Daftar Artikel
-                    <span style="font-size:.72rem;color:#94a3b8;font-weight:500;">— {{ $totalNews }} ditemukan</span>
+                    <span style="font-size:.72rem;color:var(--fm);font-weight:500;text-transform:none;letter-spacing:normal;">— {{ $totalNews }} ditemukan</span>
                 </div>
                 {{-- Filter chips --}}
                 <div class="filter-chips" id="filterChips">
                     <span class="chip active" data-filter="all">Semua</span>
-                    <span class="chip" data-filter="Positive" style="border-color:#bbf7d0;color:#16a34a;">Positif</span>
-                    <span class="chip" data-filter="Neutral" style="border-color:#e2e8f0;color:#64748b;">Netral</span>
-                    <span class="chip" data-filter="Negative" style="border-color:#fecaca;color:#dc2626;">Negatif</span>
+                    <span class="chip" data-filter="Positive">Positif</span>
+                    <span class="chip" data-filter="Neutral">Netral</span>
+                    <span class="chip" data-filter="Negative">Negatif</span>
                 </div>
             </div>
             <div class="panel-body">
@@ -431,14 +485,14 @@
                     @foreach($newsData as $article)
                         @php
                             if ($article['sentiment'] === 'Positive') {
-                                $bColor = '#16a34a'; $badgeBg = '#dcfce7'; $badgeText = '#15803d';
-                                $scoreBg = '#f0fdf4'; $scoreBorder = '#bbf7d0'; $scoreColor = '#16a34a';
+                                $bColor = 'var(--fg)'; $badgeBg = 'rgba(52,211,153,0.12)'; $badgeText = 'var(--fg)';
+                                $scoreBg = 'rgba(52,211,153,0.05)'; $scoreBorder = 'rgba(52,211,153,0.2)'; $scoreColor = 'var(--fg)';
                             } elseif ($article['sentiment'] === 'Negative') {
-                                $bColor = '#dc2626'; $badgeBg = '#fee2e2'; $badgeText = '#b91c1c';
-                                $scoreBg = '#fef2f2'; $scoreBorder = '#fecaca'; $scoreColor = '#dc2626';
+                                $bColor = 'var(--fr)'; $badgeBg = 'rgba(248,113,113,0.12)'; $badgeText = 'var(--fr)';
+                                $scoreBg = 'rgba(248,113,113,0.05)'; $scoreBorder = 'rgba(248,113,113,0.2)'; $scoreColor = 'var(--fr)';
                             } else {
-                                $bColor = '#94a3b8'; $badgeBg = '#f1f5f9'; $badgeText = '#475569';
-                                $scoreBg = '#f8fafc'; $scoreBorder = '#e2e8f0'; $scoreColor = '#64748b';
+                                $bColor = 'var(--fm)'; $badgeBg = 'rgba(255,255,255,0.05)'; $badgeText = 'var(--ft)';
+                                $scoreBg = 'rgba(0,0,0,0.2)'; $scoreBorder = 'rgba(255,255,255,0.1)'; $scoreColor = 'var(--fm)';
                             }
                         @endphp
                         <div class="article-card" style="border-left-color:{{ $bColor }};" data-sentiment="{{ $article['sentiment'] }}">
@@ -446,11 +500,11 @@
                                 <i class="fa-regular fa-building"></i>
                                 {{ $article['source'] }}
                             </div>
-                            <a href="{{ $article['url'] }}" target="_blank" class="article-title" style="color:#0f172a;">
+                            <a href="{{ $article['url'] }}" target="_blank" class="article-title">
                                 {{ $article['title'] }}
                             </a>
                             <div class="article-footer">
-                                <span class="score-chip" style="background:{{ $scoreBg }};border-color:{{ $scoreBorder }};color:{{ $scoreColor }};">
+                                <span class="score-chip" style="background:{{ $scoreBg }};border:1px solid {{ $scoreBorder }};color:{{ $scoreColor }};">
                                     Indeks: {{ $article['score'] }} pts
                                 </span>
                                 <div style="display:flex;align-items:center;gap:6px;">
@@ -458,9 +512,9 @@
                                         {{ $article['sentiment'] }}
                                     </span>
                                     <a href="{{ $article['url'] }}" target="_blank"
-                                       style="width:26px;height:26px;border-radius:50%;background:#f1f5f9;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:.65rem;transition:all .2s;text-decoration:none;"
-                                       onmouseover="this.style.background='#e0e7ff';this.style.color='#3d5fc0';"
-                                       onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b';">
+                                       style="width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:var(--fm);font-size:.65rem;transition:all .2s;text-decoration:none;"
+                                       onmouseover="this.style.background='rgba(79,125,219,0.15)';this.style.color='var(--fa)';"
+                                       onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.color='var(--fm)';">
                                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
                                 </div>
@@ -470,9 +524,9 @@
                 </div>
                 @else
                 <div class="empty-state">
-                    <i class="fa-regular fa-folder-open" style="font-size:2.5rem;"></i>
-                    <div style="font-size:.9rem;font-weight:700;color:#374151;">Tidak ada artikel ditemukan</div>
-                    <div style="font-size:.78rem;text-align:center;max-width:240px;">Coba pilih negara lain menggunakan kolom pencarian di atas.</div>
+                    <i class="fa-regular fa-folder-open" style="font-size:2.5rem; color:var(--fb);"></i>
+                    <div style="font-size:.9rem;font-weight:700;color:var(--ft);">Tidak ada artikel ditemukan</div>
+                    <div style="font-size:.78rem;text-align:center;max-width:240px;color:var(--fm);">Coba pilih negara lain menggunakan kolom pencarian di atas.</div>
                 </div>
                 @endif
             </div>
@@ -513,8 +567,8 @@ document.addEventListener('DOMContentLoaded', function () {
             labels: ['Positif', 'Netral', 'Negatif'],
             datasets: [{
                 data: total > 0 ? [pos, neu, neg] : [1, 1, 1],
-                backgroundColor: ['#16a34a', '#94a3b8', '#dc2626'],
-                borderColor: '#ffffff',
+                backgroundColor: ['#34d399', '#8fadd4', '#f87171'],
+                borderColor: '#1a2d4e',
                 borderWidth: 3,
                 hoverBorderWidth: 4,
                 hoverOffset: 6,
@@ -528,12 +582,12 @@ document.addEventListener('DOMContentLoaded', function () {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: '#0f2044',
-                    titleColor: '#94a3b8',
-                    bodyColor: '#fff',
+                    backgroundColor: '#0a1628', 
+                    titleColor: '#8fadd4',
+                    bodyColor: '#ffffff',
                     padding: 10,
                     cornerRadius: 10,
-                    borderColor: 'rgba(255,255,255,.08)',
+                    borderColor: 'rgba(79,125,219,.2)',
                     borderWidth: 1,
                     titleFont: { size: 11, family: "'Inter',sans-serif" },
                     bodyFont: { size: 13, weight: 'bold', family: "'Inter',sans-serif" },
