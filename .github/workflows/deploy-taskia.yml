@@ -29,12 +29,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '22'
 
       - name: Install NPM Dependencies & Build Assets
         run: |
-          npm ci
+          npm install
           npm run build
 
       - name: Deploy via FTP
